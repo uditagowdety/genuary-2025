@@ -19,7 +19,7 @@ stay tuned for daily updates!
 
 | day | prompt                  | link to sketch                |
 |-----|-------------------------|-------------------------------|
-| 1   | mondrian game of life   | [view sketch](link-to-day-1-sketch) |
+| 1   | mondrian game of life   | [view sketch](https://github.com/uditagowdety/genuary-2025/blob/main/01-mondrian-gol.js) |
 | ... | more coming soon...     | stay tuned!                  |
 
 ---
