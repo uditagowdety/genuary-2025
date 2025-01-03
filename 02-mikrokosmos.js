@@ -31,7 +31,10 @@ function draw() {
 
     // Calculate color for each layer based on spectrum and palette
     let spectrumValue = spectrum[i * 10] || 0; // Sample spectrum at intervals
+    spectrumValue = constrain(spectrumValue, 0, 255); // Ensure spectrumValue is valid
     let colorIndex = floor(map(spectrumValue, 0, 255, 0, colors.length));
+    colorIndex = constrain(colorIndex, 0, colors.length - 1); // Ensure colorIndex is valid
+
     let c = color(colors[colorIndex]);
 
     // Add transparency based on spectrum value
