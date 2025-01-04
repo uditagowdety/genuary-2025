@@ -4,43 +4,40 @@ let maxTime = 60; // Total time for the cycle (in seconds)
 let angleStep; // Angle increment per frame
 let currentAngle = 0; // Tracks the current angle
 let hueOffset = 0; // For dynamic color transitions
-let fadeCounter = 0; // Counter to control fading frequency
-let fadeFrequency = 5; // Number of frames before fading
 
 function preload() {
   sound = loadSound('clair.mp3'); // Replace with your audio file
 }
 
 function setup() {
-  createCanvas(500, 500);
+  createCanvas(600, 600);
   sound.loop(); // Play the audio file on loop
-  fft = new p5.FFT(0.9, 512); // Smoothing and bins
+  fft = new p5.FFT(0.9, 1024); // Smoothing and bins
 
   // Calculate angle increment per frame
   angleStep = TWO_PI / (maxTime * 60); // Angle increment for 60 FPS over 60 seconds
 }
 
 function draw() {
-  // Only overwrite the background every 'fadeFrequency' frames
-  if (fadeCounter % fadeFrequency === 0) {
-    background(0, 0, 0, 10); // Reduced transparency for slower fading
-  }
-  fadeCounter++; // Increment the counter
-
+  background(0, 0, 0, 15); // Transparent background for smooth trails
   translate(width / 2, height / 2); // Center the canvas
 
   let spectrum = fft.analyze(); // Get frequency spectrum
-  let amplitude = fft.getEnergy("bass"); // Get energy of bass for radius modulation
 
-  // Map amplitude to dynamic radius for the spiral
-  let dynamicRadius = timeRadius + map(amplitude, 0, 255, 0, 100);
+  // Find the frequency with the maximum amplitude
+  let maxIndex = spectrum.indexOf(max(spectrum));
+  let frequency = fft.getFreq(maxIndex); // Convert the index to frequency
 
-  // Calculate the x, y position based on the current angle
+  // Convert frequency to MIDI note
+  let midiNote = 69 + 12 * Math.log2(frequency / 440);
+
+  // Map MIDI note to a radius and angle
+  let dynamicRadius = timeRadius + map(midiNote, 21, 108, 0, 200); // Map to piano range (A0 to C8)
   let x = cos(currentAngle) * dynamicRadius;
   let y = sin(currentAngle) * dynamicRadius;
 
-  // Generate a smooth rainbow color in RGB
-  let hueValue = (hueOffset + map(currentAngle, 0, TWO_PI, 0, 360)) % 360; // Continuous hue cycling
+  // Generate a smooth rainbow color based on the MIDI note
+  let hueValue = map(midiNote, 21, 108, 0, 360) % 360; // Map note to hue
   let r = sin(radians(hueValue)) * 127 + 128; // Red channel
   let g = sin(radians(hueValue + 120)) * 127 + 128; // Green channel
   let b = sin(radians(hueValue + 240)) * 127 + 128; // Blue channel
