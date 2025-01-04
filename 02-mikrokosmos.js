@@ -1,9 +1,9 @@
 let sound, fft;
-let timeRadius = 200; // Base radius for the spiral
+let timeRadius = 100; // Smaller base radius for the spiral
 let maxTime = 60; // Total time for the cycle (in seconds)
 let angleStep; // Angle increment per frame
 let currentAngle = 0; // Tracks the current angle
-let colors = []; // Array to hold rainbow colors
+let hueOffset = 0; // For dynamic color transitions
 
 function preload() {
   sound = loadSound('clair.mp3'); // Replace with your audio file
@@ -16,12 +16,6 @@ function setup() {
 
   // Calculate angle increment per frame
   angleStep = TWO_PI / (maxTime * 60); // Angle increment for 60 FPS over 60 seconds
-
-  // Generate rainbow colors for smooth transitions
-  for (let i = 0; i < 256; i++) {
-    let hue = map(i, 0, 255, 0, 360); // Map to hue spectrum
-    colors.push(color(`hsl(${hue}, 100%, 50%)`)); // HSL color format
-  }
 }
 
 function draw() {
@@ -38,22 +32,25 @@ function draw() {
   let x = cos(currentAngle) * dynamicRadius;
   let y = sin(currentAngle) * dynamicRadius;
 
-  // Calculate the color based on the angle (wraps along the rainbow spectrum)
-  let colorIndex = floor(map(currentAngle, 0, TWO_PI, 0, colors.length)) % colors.length;
-  let c = colors[colorIndex];
+  // Generate a smooth rainbow color in RGB
+  let hueValue = (hueOffset + map(currentAngle, 0, TWO_PI, 0, 360)) % 360; // Continuous hue cycling
+  let r = sin(radians(hueValue)) * 127 + 128; // Red channel
+  let g = sin(radians(hueValue + 120)) * 127 + 128; // Green channel
+  let b = sin(radians(hueValue + 240)) * 127 + 128; // Blue channel
 
   // Draw the point on the spiral
   noStroke();
-  fill(c);
-  ellipse(x, y, 8, 8);
+  fill(r, g, b); // Use the computed RGB color
+  ellipse(x, y, 6, 6); // Slightly smaller points for a delicate visual effect
 
-  // Increment the angle
+  // Increment the angle and hue offset
   currentAngle += angleStep;
+  hueOffset += 0.1; // Adjust for smoother color transitions
 
   // Reset the spiral after completing one cycle
   if (currentAngle >= TWO_PI) {
     currentAngle = 0;
     timeRadius += 20; // Increase radius for next cycle
-    if (timeRadius > width / 2) timeRadius = 200; // Reset radius if too large
+    if (timeRadius > width / 2) timeRadius = 100; // Reset radius if too large
   }
 }
