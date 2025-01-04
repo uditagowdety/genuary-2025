@@ -1,48 +1,59 @@
-let sound, fft, amplitude;
-let numLayers = 20; // Number of circle layers
-let colors = ["#F92672", "#66D9EF", "#A6E22E", "#E6DB74", "#FD971F"]; // Monokai-inspired palette
+let sound, fft;
+let timeRadius = 200; // Base radius for the spiral
+let maxTime = 60; // Total time for the cycle (in seconds)
+let angleStep; // Angle increment per frame
+let currentAngle = 0; // Tracks the current angle
+let colors = []; // Array to hold rainbow colors
 
 function preload() {
-  sound = loadSound('mikro.mp3'); // Replace with your audio file
+  sound = loadSound('clair.mp3'); // Replace with your audio file
 }
 
 function setup() {
-  createCanvas(800, 800);
+  createCanvas(500, 500);
   sound.loop(); // Play the audio file on loop
+  fft = new p5.FFT(0.9, 512); // Smoothing and bins
 
-  // Initialize FFT and Amplitude
-  fft = new p5.FFT(0.8, 512); // Smoothing and bins
-  amplitude = new p5.Amplitude();
+  // Calculate angle increment per frame
+  angleStep = TWO_PI / (maxTime * 60); // Angle increment for 60 FPS over 60 seconds
+
+  // Generate rainbow colors for smooth transitions
+  for (let i = 0; i < 256; i++) {
+    let hue = map(i, 0, 255, 0, 360); // Map to hue spectrum
+    colors.push(color(`hsl(${hue}, 100%, 50%)`)); // HSL color format
+  }
 }
 
 function draw() {
-  background(30); // Dark Monokai background
+  background(30, 30); // Dark background with slight transparency for trails
   translate(width / 2, height / 2); // Center the canvas
 
   let spectrum = fft.analyze(); // Get frequency spectrum
-  let level = amplitude.getLevel(); // Get overall amplitude level
-  let maxRadius = map(level, 0, 1, 100, width / 2); // Map amplitude to max radius
+  let amplitude = fft.getEnergy("bass"); // Get energy of bass for radius modulation
 
-  noFill();
+  // Map amplitude to dynamic radius for the spiral
+  let dynamicRadius = timeRadius + map(amplitude, 0, 255, 0, 100);
 
-  for (let i = 0; i < numLayers; i++) {
-    // Map each layer's size to a portion of the max radius
-    let radius = map(i, 0, numLayers, 50, maxRadius);
+  // Calculate the x, y position based on the current angle
+  let x = cos(currentAngle) * dynamicRadius;
+  let y = sin(currentAngle) * dynamicRadius;
 
-    // Calculate color for each layer based on spectrum and palette
-    let spectrumValue = spectrum[i * 10] || 0; // Sample spectrum at intervals
-    spectrumValue = constrain(spectrumValue, 0, 255); // Ensure spectrumValue is valid
-    let colorIndex = floor(map(spectrumValue, 0, 255, 0, colors.length));
-    colorIndex = constrain(colorIndex, 0, colors.length - 1); // Ensure colorIndex is valid
+  // Calculate the color based on the angle (wraps along the rainbow spectrum)
+  let colorIndex = floor(map(currentAngle, 0, TWO_PI, 0, colors.length)) % colors.length;
+  let c = colors[colorIndex];
 
-    let c = color(colors[colorIndex]);
+  // Draw the point on the spiral
+  noStroke();
+  fill(c);
+  ellipse(x, y, 8, 8);
 
-    // Add transparency based on spectrum value
-    let alpha = map(spectrumValue, 0, 255, 50, 255);
-    c.setAlpha(alpha);
+  // Increment the angle
+  currentAngle += angleStep;
 
-    stroke(c);
-    strokeWeight(map(level, 0, 1, 1, 4)); // Dynamic stroke weight based on amplitude
-    ellipse(0, 0, radius * 2); // Draw the layer
+  // Reset the spiral after completing one cycle
+  if (currentAngle >= TWO_PI) {
+    currentAngle = 0;
+    timeRadius += 20; // Increase radius for next cycle
+    if (timeRadius > width / 2) timeRadius = 200; // Reset radius if too large
   }
 }
