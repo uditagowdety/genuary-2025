@@ -1,35 +1,42 @@
 let t = 0; // Time variable
-let walkers = []; // Array for Perlin walkers
-let numWalkers = 50; // Number of walkers
+let walkers = [];
+let numWalkers = 100;
 
 function setup() {
-  createCanvas(600, 600); // Canvas size
-  noStroke(); // No outlines
+  createCanvas(600, 600);
+  noStroke();
   for (let i = 0; i < numWalkers; i++) {
     walkers.push({
-      x: random(width), // Initial x position
-      y: random(height), // Initial y position
-      color: color(random(255), random(255), random(255), 150), // Random colors
-      size: random(5, 15), // Random size
-    });
-  }
-}
+      x: width / 2,
+      y: height / 2,
+      angle: random(TWO_PI),
+      speed: random(1, 3),
+      color: color(random(255), random(150, 255), random(100, 255), 150),
+      size: random(3, 7),
+    });}}
 
 function draw() {
-  background(10, 10, 30, 20); // Transparent background for trails
+  background(10, 10, 20, 20);
 
   for (let w of walkers) {
-    fill(w.color); // Use each walker's color
-    ellipse(w.x, w.y, w.size); // Draw walker
+    fill(red(w.color), green(w.color), blue(w.color), 100);
+    ellipse(w.x, w.y, w.size);
 
-    // Update position with Perlin noise
-    w.x += map(noise(t, w.y * 0.01), 0, 1, -2, 2);
-    w.y += map(noise(t, w.x * 0.01), 0, 1, -2, 2);
+    w.x += cos(w.angle) * w.speed;
+    w.y += sin(w.angle) * w.speed;
 
-    // Keep walkers within bounds
-    w.x = (w.x + width) % width;
-    w.y = (w.y + height) % height;
+    // Apply Perlin noise to simulate organic firework bursts
+    w.angle += map(noise(w.x * 0.01, w.y * 0.01, t), 0, 1, -0.1, 0.1);
+    w.speed *= 0.98; // Gradually reduce speed
+
+    // Reset when the firework fades
+    if (w.speed < 0.1) {
+      w.x = width / 2;
+      w.y = height / 2;
+      w.angle = random(TWO_PI);
+      w.speed = random(1, 3);
+      w.color = color(random(255), random(150, 255), random(100, 255), 150);}
   }
 
-  t += 0.01; // Increment time for noise
+  t += 0.01; // Time increment
 }
