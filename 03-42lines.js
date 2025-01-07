@@ -1,29 +1,35 @@
 let t = 0; // Time variable
-let gridSize = 10; // Grid size (10x10)
+let walkers = []; // Array for Perlin walkers
+let numWalkers = 50; // Number of walkers
 
 function setup() {
   createCanvas(600, 600); // Canvas size
   noStroke(); // No outlines
-  rectMode(CENTER); // Center rectangles
+  for (let i = 0; i < numWalkers; i++) {
+    walkers.push({
+      x: random(width), // Initial x position
+      y: random(height), // Initial y position
+      color: color(random(255), random(255), random(255), 150), // Random colors
+      size: random(5, 15), // Random size
+    });
+  }
 }
 
 function draw() {
-  background(10, 10, 30, 30); // Transparent background for trails
+  background(10, 10, 30, 20); // Transparent background for trails
 
-  for (let x = 0; x < gridSize; x++) {
-    for (let y = 0; y < gridSize; y++) {
-      let angle = TWO_PI / gridSize * x + t; // Animation angle
-      let size = map(sin(t + x * 0.5 + y * 0.5), -1, 1, 10, 40); // Dynamic size
-      let hue = map(x + y, 0, gridSize * 2, 0, 255); // Smooth color mapping
+  for (let w of walkers) {
+    fill(w.color); // Use each walker's color
+    ellipse(w.x, w.y, w.size); // Draw walker
 
-      push(); // Save current transformation state
-      translate(width / gridSize * x + width / (2 * gridSize), height / gridSize * y + height / (2 * gridSize)); // Move to grid cell
-      rotate(angle + y * 0.1); // Rotate dynamically
-      fill(hue, 200, 255, 150); // Fill color
-      rect(0, 0, size, size); // Draw rectangle
-      pop(); // Restore original state
-    }
+    // Update position with Perlin noise
+    w.x += map(noise(t, w.y * 0.01), 0, 1, -2, 2);
+    w.y += map(noise(t, w.x * 0.01), 0, 1, -2, 2);
+
+    // Keep walkers within bounds
+    w.x = (w.x + width) % width;
+    w.y = (w.y + height) % height;
   }
 
-  t += 0.02; // Increment time for animation
+  t += 0.01; // Increment time for noise
 }
