@@ -1,51 +1,51 @@
 let colors;
 
 function setup() {
-  createCanvas(600, 600);
+  createCanvas(600, 800);
   noLoop();
 
   // Define a gradient color palette
   colors = [
-    color("#ff6b6b"), // Coral
-    color("#feca57"), // Yellow
-    color("#1dd1a1"), // Mint
-    color("#5f27cd"), // Purple
-    color("#54a0ff")  // Blue
+    color("#E63946"), // Deep red
+    color("#F1FAEE"), // Soft white
+    color("#A8DADC"), // Light teal
+    color("#457B9D"), // Muted blue
+    color("#1D3557")  // Dark blue
   ];
 }
 
 function draw() {
-  background(255);
-  noStroke();
+  background(220);
 
-  let cellSize = 50; // Size of each block
-  for (let y = 0; y < height; y += cellSize) {
-    for (let x = 0; x < width; x += cellSize) {
-      // Pick random colors for gradient
-      let c1 = random(colors);
-      let c2 = random(colors);
+  // Draw border
+  drawBorder(40, colors[4], colors[1]);
 
-      // Create a gradient in each cell
-      drawGradientSquare(x, y, cellSize, c1, c2);
-    }
-  }
+  // Draw central wavy pattern
+  drawWavyPattern(60, 540, 80);
+}
 
-  // Add some woven patterns over the gradient
-  stroke(0, 50);
-  strokeWeight(2);
-  for (let y = 0; y < height; y += cellSize) {
-    line(0, y, width, y); // Horizontal lines
-  }
-  for (let x = 0; x < width; x += cellSize) {
-    line(x, 0, x, height); // Vertical lines
+// Function to draw a border around the rug
+function drawBorder(borderWidth, color1, color2) {
+  noFill();
+  for (let i = 0; i < borderWidth; i++) {
+    let inter = map(i, 0, borderWidth, 0, 1);
+    stroke(lerpColor(color1, color2, inter));
+    rect(i, i, width - 2 * i, height - 2 * i);
   }
 }
 
-function drawGradientSquare(x, y, size, c1, c2) {
-  for (let i = 0; i < size; i++) {
-    let inter = map(i, 0, size, 0, 1);
-    let c = lerpColor(c1, c2, inter);
-    fill(c);
-    rect(x, y + i, size, 1); // Horizontal gradient
+// Function to draw wavy patterns
+function drawWavyPattern(xStart, xEnd, spacing) {
+  noFill();
+  for (let y = 100; y < height - 100; y += spacing) {
+    beginShape();
+    for (let x = xStart; x <= xEnd; x++) {
+      let waveHeight = sin(x * 0.05 + y * 0.01) * 20;
+      let col = lerpColor(colors[0], colors[3], map(y, 100, height - 100, 0, 1));
+      stroke(col);
+      strokeWeight(2);
+      vertex(x, y + waveHeight);
+    }
+    endShape();
   }
 }
