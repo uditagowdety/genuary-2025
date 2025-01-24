@@ -5,7 +5,8 @@ function setup() {
   
   function draw() {
     background(20);
-  
+    noStroke();
+    
     let cols = int(random(4, 8)); // Random number of columns
     let rows = int(random(4, 8)); // Random number of rows
     let cellWidth = width / cols;
