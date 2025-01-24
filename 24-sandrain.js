@@ -3,7 +3,7 @@ let gravity = 0.5; // Gravity constant
 let ground = []; // Array to store stationary triangles
 
 function setup() {
-  createCanvas(500, 500);
+  createCanvas(800, 600);
   noStroke();
 }
 
@@ -25,6 +25,7 @@ function draw() {
     if (t.y + t.size / 2 >= height || checkCollision(t)) {
       t.vy = 0; // Stop vertical motion
       t.vx = 0; // Stop horizontal motion
+      t.y = constrain(t.y, 0, height - t.size / 2); // Ensure it doesn’t go below ground
       ground.push(t); // Add to stationary ground triangles
       triangles.splice(i, 1); // Remove from falling triangles
     }
@@ -39,16 +40,31 @@ function draw() {
 // Function to check collision with other triangles
 function checkCollision(triangle) {
   for (let g of ground) {
-    let dx = abs(triangle.x - g.x);
-    let dy = abs(triangle.y - g.y);
+    // Get vertices of both triangles
+    let tVertices = triangle.getVertices();
+    let gVertices = g.getVertices();
 
-    // Check if triangle overlaps another
-    if (dx < (triangle.size / 2) && dy < (triangle.size / 2)) {
-      triangle.y = g.y - triangle.size / 2; // Adjust position
-      return true;
+    // Check if any vertex of the falling triangle is inside the ground triangle
+    for (let v of tVertices) {
+      if (pointInTriangle(v.x, v.y, gVertices)) {
+        triangle.y = g.y - triangle.size / 2; // Adjust position to stack properly
+        return true;
+      }
     }
   }
   return false;
+}
+
+// Function to check if a point is inside a triangle
+function pointInTriangle(px, py, vertices) {
+  let [v1, v2, v3] = vertices;
+
+  let areaOrig = abs((v1.x * (v2.y - v3.y) + v2.x * (v3.y - v1.y) + v3.x * (v1.y - v2.y)) / 2.0);
+  let area1 = abs((px * (v2.y - v3.y) + v2.x * (v3.y - py) + v3.x * (py - v2.y)) / 2.0);
+  let area2 = abs((v1.x * (py - v3.y) + px * (v3.y - v1.y) + v3.x * (v1.y - py)) / 2.0);
+  let area3 = abs((v1.x * (v2.y - py) + v2.x * (py - v1.y) + px * (v1.y - v2.y)) / 2.0);
+
+  return (area1 + area2 + area3) <= areaOrig;
 }
 
 // Triangle class
@@ -85,5 +101,26 @@ class Triangle {
       0, -this.size / 2
     );
     pop();
+  }
+
+  getVertices() {
+    // Get the vertices of the triangle after rotation and translation
+    let angle = this.rotation;
+    let halfSize = this.size / 2;
+
+    let v1 = createVector(
+      this.x + cos(angle) * -halfSize - sin(angle) * halfSize,
+      this.y + sin(angle) * -halfSize + cos(angle) * halfSize
+    );
+    let v2 = createVector(
+      this.x + cos(angle) * halfSize - sin(angle) * halfSize,
+      this.y + sin(angle) * halfSize + cos(angle) * halfSize
+    );
+    let v3 = createVector(
+      this.x + cos(angle) * 0 - sin(angle) * -halfSize,
+      this.y + sin(angle) * 0 + cos(angle) * -halfSize
+    );
+
+    return [v1, v2, v3];
   }
 }
