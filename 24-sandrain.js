@@ -23,6 +23,8 @@ function draw() {
 
     // Check if the triangle lands on the ground or another triangle
     if (t.y + t.size / 2 >= height || checkCollision(t)) {
+      t.vy = 0; // Stop vertical motion
+      t.vx = 0; // Stop horizontal motion
       ground.push(t); // Add to stationary ground triangles
       triangles.splice(i, 1); // Remove from falling triangles
     }
@@ -37,8 +39,12 @@ function draw() {
 // Function to check collision with other triangles
 function checkCollision(triangle) {
   for (let g of ground) {
-    let d = dist(triangle.x, triangle.y, g.x, g.y);
-    if (d < triangle.size) {
+    let dx = abs(triangle.x - g.x);
+    let dy = abs(triangle.y - g.y);
+
+    // Check if triangle overlaps another
+    if (dx < (triangle.size / 2) && dy < (triangle.size / 2)) {
+      triangle.y = g.y - triangle.size / 2; // Adjust position
       return true;
     }
   }
@@ -54,6 +60,7 @@ class Triangle {
     this.vx = random(-1, 1); // Random horizontal velocity
     this.vy = 0; // Initial vertical velocity
     this.color = color(random(100, 255), random(100, 255), random(100, 255));
+    this.rotation = random(TWO_PI); // Random initial rotation
   }
 
   update() {
@@ -71,7 +78,7 @@ class Triangle {
     fill(this.color);
     push();
     translate(this.x, this.y);
-    rotate(PI / 3); // Add slight rotation for randomness
+    rotate(this.rotation); // Use random rotation for diversity
     triangle(
       -this.size / 2, this.size / 2,
       this.size / 2, this.size / 2,
