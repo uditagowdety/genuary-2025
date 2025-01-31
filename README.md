@@ -1,10 +1,10 @@
-# 🌟 Welcome to My Genuary 2025 Portfolio!
+# 🌟 welcome to my genuary 2025 portfolio!
 
-Genuary is a **month-long festival** celebrating the magic of creative computation and generative art. Every day in **January**, I will create coded art inspired by the **daily prompts** for this year’s edition.
+genuary is a **month-long festival** celebrating the magic of creative computation and generative art. every day in **january**, i will create coded art inspired by the **daily prompts** for this year’s edition.
 
-This portfolio is a collection of my creative explorations, showcasing how code can transform into art. Each piece is built using **p5.js** and other creative tools.
+this portfolio is a collection of my creative explorations, showcasing how code can transform into art. each piece is built using **p5.js** and other creative tools.
 
-Stay tuned for daily updates!
+stay tuned for daily updates!
 
 ---
 
@@ -15,46 +15,46 @@ Stay tuned for daily updates!
   <img src="https://github.com/user-attachments/assets/d90f7b81-188e-47c8-bf04-639a5f6e0194" width="24%">
 </p>
 
-## 🔗 Links
+## 🔗 links
 
-- [🌐 Official Genuary Website](https://genuary.art)  
-- [📜 2025 Prompts](https://genuary.art/prompts)
+- [🌐 official genuary website](https://genuary.art)  
+- [📜 2025 prompts](https://genuary.art/prompts)
 
 ---
 
-## 📅 My Genuary 2025 Projects
+## 📅 my genuary 2025 projects
 
-| Day  | Prompt                         | Link to Sketch |
+| day  | prompt                         | link to sketch |
 |------|--------------------------------|---------------|
-| 1    | Mondrian Game of Life         | [View Sketch](https://github.com/uditagowdety/genuary-2025/blob/main/01-mondrian-gol.js) |
-| 15   | Design a Rug                   | [View Sketch](https://github.com/uditagowdety/genuary-2025/blob/main/15-rug.js) |
-| 16   | Generative Palette             | [View Sketch](https://github.com/uditagowdety/genuary-2025/blob/main/16-genpalette.js) |
-| 17   | What If Pi = 4?                | [View Sketch](https://github.com/uditagowdety/genuary-2025/blob/main/17-pi4.js) |
-| 18   | What Does Wind Look Like?      | [View Sketch](https://github.com/uditagowdety/genuary-2025/blob/main/18-windblume.js) |
-| 19   | Op Art                         | [View Sketch](https://github.com/uditagowdety/genuary-2025/blob/main/19-op-art.js) |
-| 20   | Generative Architecture        | [View Sketch](https://github.com/uditagowdety/genuary-2025/blob/main/20-gen-archi.js) |
-| 21   | Collision Detection            | [View Sketch](https://github.com/uditagowdety/genuary-2025/blob/main/21-collisions.js) |
-| 22   | Gradients Only                 | [View Sketch](https://github.com/uditagowdety/genuary-2025/blob/main/22-gradients.js) |
-| 23   | Inspired by Brutalism          | [View Sketch](https://github.com/uditagowdety/genuary-2025/blob/main/23-brutalist-transforms.js) |
-| 24   | Sand Physics + Rain Simulation | [View Sketch](https://github.com/uditagowdety/genuary-2025/blob/main/24-sandrain.js) |
+| 1    | mondrian game of life         | [view sketch](https://github.com/uditagowdety/genuary-2025/blob/main/01-mondrian-gol.js) |
+| 15   | design a rug                   | [view sketch](https://github.com/uditagowdety/genuary-2025/blob/main/15-rug.js) |
+| 16   | generative palette             | [view sketch](https://github.com/uditagowdety/genuary-2025/blob/main/16-genpalette.js) |
+| 17   | what if pi = 4?                | [view sketch](https://github.com/uditagowdety/genuary-2025/blob/main/17-pi4.js) |
+| 18   | what does wind look like?      | [view sketch](https://github.com/uditagowdety/genuary-2025/blob/main/18-windblume.js) |
+| 19   | op art                         | [view sketch](https://github.com/uditagowdety/genuary-2025/blob/main/19-op-art.js) |
+| 20   | generative architecture        | [view sketch](https://github.com/uditagowdety/genuary-2025/blob/main/20-gen-archi.js) |
+| 21   | collision detection            | [view sketch](https://github.com/uditagowdety/genuary-2025/blob/main/21-collisions.js) |
+| 22   | gradients only                 | [view sketch](https://github.com/uditagowdety/genuary-2025/blob/main/22-gradients.js) |
+| 23   | inspired by brutalism          | [view sketch](https://github.com/uditagowdety/genuary-2025/blob/main/23-brutalist-transforms.js) |
+| 24   | sand physics + rain simulation | [view sketch](https://github.com/uditagowdety/genuary-2025/blob/main/24-sandrain.js) |
 
 ---
 
-## 🛠 How It Works
+## 🛠 how it works
 
-Each sketch explores a unique generative art prompt and is created using:
-- **p5.js**: A creative coding library in JavaScript.
-- **Creative algorithms**: Cellular automata, recursive patterns, random walks, and more.
-- **Generative techniques**: Experimenting with randomness, rules, and visual aesthetics.
-
----
-
-## 🎨 Highlights
-
-- **Interactive features**: Many sketches allow you to drag, click, or interact with the canvas.
-- **Dynamic visuals**: Watch as the art evolves frame by frame.
-- **Custom rules**: Inspired by generative art legends, my sketches feature a blend of structure and chaos.
+each sketch explores a unique generative art prompt and is created using:
+- **p5.js**: a creative coding library in javascript.
+- **creative algorithms**: cellular automata, recursive patterns, random walks, and more.
+- **generative techniques**: experimenting with randomness, rules, and visual aesthetics.
 
 ---
 
-Stay tuned as the month unfolds with exciting new creations! Let me know what you think and feel free to share your own **Genuary** creations. 😊
+## 🎨 highlights
+
+- **interactive features**: many sketches allow you to drag, click, or interact with the canvas.
+- **dynamic visuals**: watch as the art evolves frame by frame.
+- **custom rules**: inspired by generative art legends, my sketches feature a blend of structure and chaos.
+
+---
+
+stay tuned as the month unfolds with exciting new creations! let me know what you think and feel free to share your own **genuary** creations. 😊
